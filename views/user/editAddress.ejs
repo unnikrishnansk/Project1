@@ -1,0 +1,80 @@
+<%- include('userNavbar')%>
+
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+ 
+ 
+ 
+ <!--SHIPPING METHOD-->
+ <div class="panel panel-info">
+    <div class="panel-heading">Edit Address</div>
+    <div class="panel-body">
+        <div class="form-group">
+        </div>
+
+        <% check.map((check) => { %>
+
+        
+        <form class="form-horizontal" method="post" action="/editaddress">
+        <div class="form-group">
+            <input type="text" name="addressid" class="form-control" value="<%=check.addressid %>" hidden/>
+            <div class="col-md-6 col-xs-12 w-25">
+                <strong>First Name:</strong>
+                <input type="text" name="first_name" class="form-control" value="<%=check.firstname %>"/>
+            </div>
+            <div class="span1"></div>
+            <div class="col-md-6 col-xs-12 w-25">
+                <strong>Last Name:</strong>
+                <input type="text" name="last_name" class="form-control" value="<%=check.lastname %>" />
+            </div>
+            <div class="span1">
+                <div class="col-md-6 col-xs-12 w-25">
+                    <strong>House name:</strong>
+                    <input type="text" name="house_name" class="form-control " value="<%=check.housename %>" />
+                </div>
+        </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-xs-12 w-25">
+                <strong>City:</strong>
+                <input type="text" name="city" class="form-control" value="<%=check.city %>"/>
+            </div>
+            <div class="span1"></div>
+            <div class="col-md-6 col-xs-12 w-25">
+                <strong>State:</strong>
+                <input type="text" name="state" class="form-control" value="<%=check.state %>" />
+            </div>
+            <div class="span1">
+                <div class="col-md-6 col-xs-12 w-25">
+                    <strong>Zip / Postal Code:</strong>
+                    <input type="text" name="zip_code" class="form-control " value="<%=check.postalcode %>" />
+                </div>
+        </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-xs-12 w-25">
+                <strong>Phone Number:</strong>
+                <input type="text" name="phone_number" class="form-control" value="<%=check.mobile %>"/>
+            </div>
+            <div class="span1"></div>
+            <div class="span1">
+                <div class="col-md-6 col-xs-12 w-25">
+                    <strong>Country:</strong>
+                    <input type="text" name="country" class="form-control " value="<%=check.country %>" />
+                </div>
+        </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary justify-content-center" style="margin: auto; margin-top: 10px;" href="/editaddress">EDIT</button>
+    </form>
+    <% }) %>
+    </div>
+</div>
+<!--SHIPPING METHOD END-->
+
+<%- include('footer')%>

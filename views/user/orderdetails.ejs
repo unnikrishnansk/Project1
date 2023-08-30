@@ -1,0 +1,165 @@
+<%- include('userNavbar')%>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  <section class="vh-100 gradient-custom-2" >
+    <div class="container py-5 h-100" >
+      <div class="row d-flex justify-content-center align-items-center h-100"  >
+        <div class="col-md-10 col-lg-8 col-xl-6" style="width: 100%;">
+          <div class="card card-stepper" style="border-radius: 16px;" >
+            <div class="card-header p-4" >
+
+              <% if (orders.length===0) { %>
+                <p>No orders found for the user.</p>
+                <% } else { %>
+
+                  <!-- <div style="border: 1px solid green;"> -->
+                  <% orders.map((order)=>{ %>
+
+                    <div style="border-radius: 16px;padding: 15px;">
+                    <!-- <div class="d-flex justify-content-around align-items-center" style="margin-top: 15px;">
+                      <div style="margin-top: 10px;">
+                        <p class="text-muted mb-2 fw-bold"> Order ID : <span class="fw-bold text-body">
+                            <%=order.orderid %>
+                          </span></p>
+                      </div>
+                      <div style="margin-top: 10px;">
+                        <p class="text-muted mb-2 fw-bold"> Placed On :  <span class="fw-bold text-body">
+                          <%=order.purchaseDate.toISOString().slice(0, 10) %>
+                          </span></p>
+                      </div>
+                      <div style="margin-top: 10px;">
+                        <% if(order.orderStatus == "delivered" || order.orderStatus == "returned" || order.orderStatus == "cancelled"){ %>
+                        <p class="text-muted mb-2 fw-bold"> Delivered Date : <span class="fw-bold text-body">
+                          <%=order.deliveryDate.toISOString().slice(0, 10) %>
+                        </span></p>
+                        <%  }else{ %>
+                        <p class="text-muted mb-2 fw-bold"> Delivery Expected : <span class="fw-bold text-body">
+                              <%=order.deliveryDate.toISOString().slice(0, 10) %>
+                        </span></p>
+                        <%}%>
+                      </div>
+                      <div style="margin-top: 10px;">
+                        <p class="text-muted mb-2 fw-bold"> Payment Method : <span class="fw-bold text-body">
+                          <%= order.paymentMethod %>
+                            </span></p>
+                      </div>
+                          <div style="margin-top: 10px;">
+                        <p class="text-muted mb-0 fw-bold"> Order Status : <span class="fw-bold text-body">
+                            <%=order.orderStatus %>
+                          </span> </p>
+                      </div>
+                    </div> -->
+                      <% order.orderItems.forEach((prod)=>{ %>
+
+                        <div class="d-flex flex-row mb-4 pb-2 justify-content-around "
+                          style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;padding: 15px; border-radius: 10px; width: 90%; margin-top: 15px;margin-left: 25px;">
+                          <div>
+                            <img style="width: 100px; height: 60px;" src="/static/uploads/<%=prod.image%>" alt="">
+                          </div>
+                          <div style="margin-top: 15px;">
+                            <h6 class="bold">
+                              <%=prod.name %>
+                            </h6>
+                            </div>
+                          <div>
+                            <p class="text-muted fw-bold" style="margin-top: 15px;"> Qty: <%=prod.quantity%>
+                            </p>
+                          </div>
+                          <div>
+                            <h6 class="mb-3 fw-bold" style="margin-top: 15px;"> <span>&#8377; <%= prod.price %>
+                              </span>
+                            </h6>
+                           
+                          </div>
+                         
+                          <div>
+
+                            
+       <% const deliverydate = order.deliveryDate%>
+       <% const returnexpdate = new Date(deliverydate)%>
+       <% returnexpdate.setDate(returnexpdate.getDate() + 5 )%>
+       <% const currentdate = new Date() %>
+       <% console.log(returnexpdate,currentdate)%>
+
+
+                             <div class="d-flex">
+                               <div style="align-items: center;margin-top: 20px;">
+                                 <a href="/singleorderdetails?ord=<%=order.orderid%>" style="text-decoration: none;margin-left: 10px;margin-right: 10px;">Details</a>
+                              </div>
+                           <!-- <div>
+                              <a href="" style="text-decoration: none;margin-left: 5px; margin-right: 5px;">View product</a>
+                          </div> -->
+                           <% if(order.orderStatus == "returned" || order.orderStatus == "cancelled"){ %>
+                            <div style="align-items: center;margin-top: 20px;">
+                              <h6 class="fw-normal ml-5 pl-5" style="margin-left: 10px;margin-right: 10px;margin-top: 20px;"><a
+                                  style="text-decoration: none;margin-left: 5px;" href="/returnorder?id=<%=prod.productID%>&odr=<%=order.orderid%>"></a>
+                              </h6>
+                            </div>
+                          
+                            
+
+                            <% } else if(order.orderStatus == "delivered"){ %>
+                              <% if(returnexpdate == currentdate){ %>
+                                <div>
+
+                                </div>
+                              <% }else{ %>
+                              <div style="align-items: center;margin-top: 20px;">
+                                <h6 class="fw-normal ml-5 pl-5" style="margin-left: 10px;margin-right: 10px;"><a
+                                    style="text-decoration: none;margin-left: 10px;" href="/returnorder?id=<%=prod.productID%>&odr=<%=order.orderid%>">Return</a>
+                                </h6>
+                              </div>
+                            <% } %>
+                            <%} else{%>
+                              <div style="align-items: center;margin-top: 20px;">
+                            <h6 class="fw-normal mr-5 pr-5 "><a style="text-decoration: none;margin-left: 10px;margin-right: 10px;"
+                                onclick="return confirm('Are you sure you want to cancel this order?')"
+                                href="/cancelorder?id=<%=prod.productID%>&odr=<%=order.orderid%>">Cancel</a>
+                            </h6>
+                          </div>
+                        </div>
+                          <%}%>
+                          </div>
+                          
+                         
+                        </div>
+                     
+                      </div>
+                        <% }) %>
+                     
+
+                          <p class="text-muted mb-0 fw-bold " style="margin-left: 20px;"> Total Price : <span class="fw-bold text-body">&#8377; 
+                              <%=order.totalAmount %>
+                            </span> </p>
+
+                            <% if(order.orderStatus == "delivered"){ %>
+                              <p class="text-muted mb-0 fw-bold"> <span class="fw-bold text-body">
+                                <!-- <%=order.deliveryDate.toISOString().slice(0, 10) %> -->
+                              </span> </p>
+                            <%  }else{ %>
+                          <p class="text-muted mb-0 fw-bold"><span class="fw-bold text-body">
+                              <!-- <%=order.deliveryDate.toISOString().slice(0, 10) %> -->
+                            </span> </p>
+                            <%}%>
+                          <p class="text-muted mb-0 fw-bold">  <span class="fw-bold text-body">
+                              <!-- <%= order.paymentMethod %> -->
+                            </span> </p>
+
+                          <hr style=" border: 3px solid blue;">
+                          <% }) %>
+            </div>
+
+           
+
+
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+   
+  </script>

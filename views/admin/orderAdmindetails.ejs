@@ -1,0 +1,150 @@
+<%-include('adminNavbar')%>
+<!-- Include SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+
+<!-- Include SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-6 mt-2 w-100" >
+        <div class="card card-margin">
+          <div class="card-header no-border bg-primary">
+            <h5 class="card-title text-white">ORDER DETAILS</h5>
+          </div>
+          <div class="card-body pt-0" >
+
+
+
+            <div class="widget-49 d-flex justify-content-between" >
+              <% orders.forEach((order)=> { %>
+                <div style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;width: 35%;"
+                  class="p-3">
+                  <div class="widget-49-title-wrapper">
+                    <div class="widget-49-date-primary">
+                      <div><span class="widget-49-date-day"><strong>Order ID : 
+                        <%=order.orderid%></strong>
+                        </span></div>
+                      <div><span class="widget-49-date-month"><strong>User :
+                        <%=order.userdetails%></strong>
+                        </span></div>
+                    </div>
+                    <div class="widget-49-meeting-info">
+                      <div><span class="widget-49-date-day"><strong>Order Status :
+                        <%=order.orderStatus%></strong>
+                        </span>
+
+                       <% if(order.orderStatus == "cancelled" || order.orderStatus == "returned" ||order.orderStatus == "delivered" ){%>
+                        <div>
+
+                        </div>
+                        <%}else{%>
+
+                        <div class="d-flex">
+                          <form action="/admin/changeorderstatus?id=<%=order.orderid%>" method="post">
+                            <select class="flex-1" name="selectstatus"  class="form-select mr-5"
+                              aria-label="Default select example">
+                              <option name="" value="" selected>Select status</option>
+                              <option name="pending" value="pending" >Pending</option>
+                              <option name="confirmed" value="confirmed">Confirmed</option>
+                              <option name="intransit" value="intransit">In-transit</option>
+                              <option name="outfordelivery" value="outfordelivery">Out for delivery</option>
+                              <option name="delivered" value="delivered">Delivered</option>
+
+                            </select>
+                            <input class=" flex-1 bg-primary border no-border border-radius rounded" type="submit">
+                          </form>
+                        </div>
+                        <%}%>
+                      </div>
+
+                      <div><span class="widget-49-date-month"><strong>Purchase Date :
+                          <%=order.purchaseDate.toISOString().slice(0, 10) %></strong>
+                        </span></div>
+                      <div><span class="widget-49-date-month"><strong>Delivery Date :
+                          <%=order.deliveryDate.toISOString().slice(0, 10) %></strong>
+                        </span>
+
+                        <% if(order.orderStatus == "cancelled" || order.orderStatus == "returned" ||order.orderStatus == "delivered" ){%>
+                          <div>
+  
+                          </div>
+                          <%}else{%>
+
+                        <form action="/admin/changedate?id=<%=order.orderid%>" method="post" onsubmit="return validateDate()">
+                          <label for="delivery"><strong>Change delivery date</strong></label>
+                          <input type="date" id="deliverydate" name="deliverydate">
+                          <input class="bg-primary border no-border border-radius rounded" type="submit">
+                        </form>
+                        <%}%>
+                      </div>
+
+                      <div><span class="widget-49-date-month"><strong>Payment Method:   <%=order.paymentMethod.toUpperCase()%></strong></span></div>
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+                <% order.orderItems.forEach((prod)=>{ %>
+
+                  <div class="d-flex flex-row mb-4 pb-2 ml-5"
+                    style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;padding: 15px; border-radius: 10px; margin-top: 20px;margin-left: 10px;width: 35%;">
+                    <div class="flex-fill">
+                      <h5 class="bold">
+                        <%=prod.name %>
+                      </h5>
+                      <img style="width: 100px; height: 60px;" src="/static/uploads/<%=prod.image%>" alt="">
+                      <p class="text-muted fw-bold"> Qty: <%=prod.quantity%>
+                      </p>
+                      <h4 class="mb-3 fw-bold"> Price : <span>&#8377; <%= prod.price %>
+                        </span>
+                      </h4>
+                      <div class="d-flex justify-content-between">
+                        <hr style="color: black;">
+                      </div>
+                    </div>
+                    <div>
+                      <img class="align-self-center img-fluid" src="" width="250">
+                    </div>
+                    <!-- <div>
+                      <h5 class="fw-normal mr-5 pr-5"><a style="text-decoration: none;"
+                          onclick="return confirm('Are you sure you want to cancel this order?')"
+                          href="/cancelorder?id=<%=prod.productID%>&odr=<%=order.orderid%>">Cancel</a>
+                      </h5>
+                    </div> -->
+                    <!-- <div>
+                      <h5 class="fw-normal ml-5 pl-5" style="margin-left: 5px;"><a
+                          style="text-decoration: none;margin-left: 5px;" href="#!">Return</a>
+                      </h5>
+                    </div> -->
+                  </div>
+                  <% }) %>
+                  <h4 class="mt-5 " style="margin-left: 15px;">Total Price : &#8377;<%= order.totalAmount%></h4>
+                <% }) %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function validateDate() {
+      const selectedDate = new Date(document.getElementById("deliverydate").value);
+      const currentDate = new Date();
+    
+      if (selectedDate < currentDate) {
+        // alert("Please select a date that is not earlier than the current date.");
+        Swal.fire({
+      icon: 'error',
+      title: 'Invalid Date',
+      text: 'Please select a date that is not earlier than the current date.',
+    });
+        return false; // Prevent form submission
+      }
+    
+      return true; // Allow form submission
+    }
+    </script>

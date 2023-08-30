@@ -1,0 +1,158 @@
+<%- include('userNavbar')%>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        
+        
+
+        
+
+        
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <% if(userdetails.profilImage == "nill"){ %>
+                    <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                <% }else{%>
+                    <img class="rounded-circle mt-5" width="150px" src="/static/uploads/<%= userdetails.profilImage%>">
+                <% } %>
+                
+            <form action="/addprofileimage" method="post" enctype="multipart/form-data">
+                <div class="mt-3">
+                    <input class="form-control" name="file"  type="file" id="formFileMultiple" multiple/>
+                    <button type="submit" class="btn btn-primary btn-md mt-2">Set</button>
+                  </div>
+                </form>
+                <span class="font-weight-bold mt-3"><%= userdetails.name%></span>
+                <span class="font-weight-bold mt-3"><%= userdetails.mobile%></span>
+                <span> <%= userdetails.email%></span>
+            </div>
+        </div>
+  
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5" >
+                <div class="panel panel-info">
+                    <div class="panel-heading">Address</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <h4>Shipping Address</h4>
+                            <div class="col-md-12 d-flex">
+                                
+
+                                <div>
+                                    <!-- <form action="/selectedaddress" method="post"> -->
+                                    <% details.map((detail) => { %>
+                                        
+                                        <div class="d-flex" >
+                                            <input type="radio" name="selected" value="<%=detail.addressid%>" required>
+                                                <span class="checkmark"></span>
+                                            <label class="container"><%= detail.firstname %>, <%= detail.lastname %>, <br> <%= detail.housename %>, <%= detail.city %>, <br> <%= detail.state %>, <br> <%= detail.postalcode %>, <br> <%= detail.mobile %>, <%= detail.country %>
+                                                
+                                              </label>
+                                              <hr>
+                                        </div>
+                                        
+                                   
+                                    <div>
+                                        <a href="/editaddress?pass=<%=detail.addressid%>">Edit</a>
+                                        <a style="margin-left: 5px;" href="/removeaddress?pass=<%=detail.addressid%>">Remove</a>
+                                    </div>
+                                    <% }) %>
+                                    <!-- <button type="submit" class="btn btn-primary w-25 mt-3" >CONTINUE</button> -->
+                                    </form>
+                                </div>
+                                
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                  
+            </div>
+        </div>
+       
+
+        
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">Add New Address</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <h4>Shipping Address</h4>
+                        </div>
+                    </div>
+                    <form class="form-horizontal" method="post" action="/shipping">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="text" name="id" class="form-control" value="" hidden/>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-xs-12">
+                            <strong>First Name:</strong>
+                            <input type="text" name="first_name" class="form-control" value="" required/>
+                        </div>
+                        <div class="span1"></div>
+                        <div class="col-md-6 col-xs-12">
+                            <strong>Last Name:</strong>
+                            <input type="text" name="last_name" class="form-control" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>House name:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" name="house_name" class="form-control" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>City:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" name="city" class="form-control" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>State:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" name="state" class="form-control" value="" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" name="zip_code" class="form-control" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>Phone Number:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" name="phone_number" class="form-control" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><strong>Country:</strong></div>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="country" value="" required/>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary justify-content-center" style="margin: auto; margin-top: 10px;">ADD</button>
+                </form>
+                </div>
+            </div> 
+          
+        </div>
+      
+    </div>
+</div>
+</div>
+</div>
+    

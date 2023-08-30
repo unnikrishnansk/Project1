@@ -1,0 +1,77 @@
+<%-include('adminNavbar')%>
+    
+    <div class="d-flex " style=" width: 80%; margin-left: 25px; justify-content: space-between;">
+        <h3 class="mb-5 mt-5 ml-5">Products</h3>
+        <a href="/admin/addproduct" class="btn btn-outline-primary" style="height: 40px; width: 200px; margin-top: 35px;">Add New Product</a>
+      </div>
+    
+      <% if (locals.message) { %>
+        <div class="alert alert-danger">
+          <strong><%= message %> </strong>
+        </div>
+      <% } %> 
+      
+      <!-- <li class="nav-item"> -->
+        <!-- <a class="navbar-brand" href="/admin/dashboard">Dashboard</a> -->
+        <div class="d-flex">
+        <form action="/admin/product/search" method="get" class="d-flex ms-2 me-2" role="search" >
+            <input class="form-control me-2" type="text" placeholder="Search Product" id="search" name="search">
+            <button class="btn btn-outline-primary" type="submit" value="Search">Search</button>
+        </form> 
+      </div>
+      <!-- </li> -->
+    
+        <table class="table table-striped" style="text-align: center;">
+          <thead class="thead-dark">
+            <tr>
+              <th  scope="col">ProductID</th>
+              <th  scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Stock</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            <% checked.forEach((check) => { %>
+              <tr>
+                <td> <%= check.productID %></td>
+                <td> <%= check.productName %></td>
+                <td> <%= check.productPrice %></td>
+                <td> <%= check.productStock %></td>
+                <td><a href="/admin/editproduct?id=<%=check.productID%>" class="btn btn-outline-primary">Edit</a><a href="/admin/deleteproduct?id=<%=check.productID%>" class="btn btn-outline-primary" style="margin-left: 5px;">Delete</a></td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+
+        <% if(locals.page && locals.limit && locals.countpages){ %>
+
+        <div class="align-items-center">
+  <nav aria-label="Page navigation example" style="width: 30%; margin: auto;">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="/admin/productmanagement?&page=<%= Math.max(1, page - 1) %>&pagesize=<%= limit %>" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <% for(let i = 1; i <= 3; i++) { %>
+        <li class="page-item <%= i === page ? 'active' : 'No data' %>">
+          <a class="page-link" href="/admin/productmanagement?&page=<%= i %>&pagesize=<%= limit %>"><%= i %></a>
+        </li>
+      <% } %> 
+       <li class="page-item">
+        <a class="page-link" href="/admin/productmanagement?&page=<%= Math.max(2, page + 1) %>&pagesize=<%= limit %>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  </div> 
+
+  <% } %>
+    
+        
+</body>
+</html>

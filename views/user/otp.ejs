@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles/otp.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+</head>
+<body>
+    <div class="container height-100 d-flex justify-content-center align-items-center"> 
+        <div class="position-relative"> 
+            <% if (locals.message) { %>
+                <div class="alert alert-danger">
+                  <strong><%= message %> </strong>
+                </div>
+              <% } %> 
+            <div class="card p-4 text-center "> 
+                <h6>Please enter the one time password <br> to verify your account</h6> 
+                <div> 
+                    <span>A code has been sent to your mobile number</span>
+                </div> 
+                
+                <form action="/otp" method="post">
+
+                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> 
+                    <input class="m-2 text-center form-control rounded" name="first" type="text" id="first" maxlength="1" />
+                     <input class="m-2 text-center form-control rounded" name="second" type="text" id="second" maxlength="1" />
+                      <input class="m-2 text-center form-control rounded" name="third" type="text" id="third" maxlength="1" /> 
+                      <input class="m-2 text-center form-control rounded" name="fourth" type="text" id="fourth" maxlength="1" /> 
+                      <input class="m-2 text-center form-control rounded" name="fifth" type="text" id="fifth" maxlength="1" /> 
+                      <input class="m-2 text-center form-control rounded" name="sixth" type="text" id="sixth" maxlength="1" /> 
+                    </div> 
+                    <div class="mt-4"> 
+                        <button type="submit" id="button" class="btn btn-primary px-4 validate">Validate</button> 
+                    </div> 
+                </form>
+
+                </div>
+                 <div class="card-2"> 
+                    <div class="content d-flex justify-content-center align-items-center"> 
+                        <span class="small fw-bold mt-2 pt-1 mb-0">Didn't get the code <a href="/otp" class="text-decoration-none ms-3 ">Resend</a> </span>
+                    </div> 
+                </div>
+             </div>
+</div>
+</body>
+</html>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+  
+  function OTPInput() {
+const inputs = document.querySelectorAll('#otp > *[id]');
+for (let i = 0; i < inputs.length; i++) { 
+    inputs[i].addEventListener('keydown', function(event) 
+    { if (event.key==="Backspace" ) { 
+        inputs[i].value='' ; if (i !==0) inputs[i - 1].focus(); 
+    } else { 
+        if (i===inputs.length - 1 && inputs[i].value !=='' ) 
+        { return true; 
+        } else if (event.keyCode> 47 && event.keyCode < 58) { 
+            inputs[i].value=event.key; if (i !==inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); 
+        } else if (event.keyCode> 64 && event.keyCode < 91) { 
+            inputs[i].value=String.fromCharCode(event.keyCode); 
+            if (i !==inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); 
+        } 
+    } 
+}); 
+} 
+} 
+OTPInput();
+})
+    
+
+</script>

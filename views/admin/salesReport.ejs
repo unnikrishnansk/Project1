@@ -1,0 +1,108 @@
+<%-include('adminNavbar')%>
+<div class="container mt-5 mb-5 ">
+    <div class="row ">
+        <div class="col-lg-12 grid-margin stretch-card  ">
+            <div class="card bg-white shadow">
+                <div class="card-body ">
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-lg-4">
+                            
+                            <h4 class="card-title m-4 " id="heading"><%= heading?heading:'Sales Report'  %></h4>
+                        </div>
+
+                        <table id="myTab" class="table table-striped pt-4 align-middle mb-0 bg-white">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity Sold</th>
+                                    <th>Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(let i=0;i<sales.length;i++){ %>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+
+                                                <div class="col-6">
+                                                    <%=sales[i].productNames %>
+                                                </div>
+                                               
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <p class="text-muted mb-0 ml-3">
+                                                    <%=sales[i].quantity %>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0 ml-3">₹<%=sales[i].amount %>
+                                            </p>
+                                        </td>
+
+                                    </tr>
+
+                                    <% } %>
+                            </tbody>
+                            <footer>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </footer>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary mt-2" onclick="download()">
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    function download(){
+        const modeS = document.getElementById('heading').innerHTML;
+        let mode;
+        if(modeS === 'Monthly Report'){
+            mode = 'Monthly';
+        }else if(modeS === 'Daily Report'){
+            mode = 'Daily';
+        }else if(modeS === 'Yearly Report'){
+            mode = 'Yearly';
+        }
+        const url = "/admin/downloadreport";
+    
+        const options={
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({mode})
+        }
+        fetchdownload(url,options)
+    }
+
+    function fetchdownload(url,options){
+
+        fetch(url,options)
+        .then(response => response.blob())
+        .then(blob => {
+            // Create a download link for the PDF
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            a.click();
+
+            // Clean up the URL object
+            URL.revokeObjectURL(url);
+        })
+    }
+</script>

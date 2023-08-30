@@ -1,0 +1,299 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<%-include('adminNavbar')%>
+
+
+<section  style="background-color: #2779e2;">
+    <div class="container ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4">Edit Product</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+
+            <form action="/admin/editproduct" method="post" enctype="multipart/form-data">
+            <div class="card-body">
+  
+              <div class="row align-items-center pt-4 pb-3">
+                <!-- <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Category ID</h6>
+                </div> -->
+                <div class="col-md-9 pe-5">
+                  <input type="text" class="form-control form-control-lg" value="<%=check.productID %>" name="productid" hidden/>
+                </div>
+              </div>
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Name</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" value="<%=check.productName %>" name="productname" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Price</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" value="<%=check.productPrice %>" name="productprice" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Stock</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" value="<%=check.productStock %>" name="productstock" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3" style="display: flex;">
+                <div class="col-md-3 ps-5" style="flex: 1;">
+  
+                  <h6 class="mb-0">Product Category</h6>
+  
+                </div>
+                <div style="flex: 1;">
+                  <select name="selectcategory" class="form-select mr-5" aria-label="Default select example">
+                    <option name="<%= check.productCategory %>" value="<%= check.productCategory %>" selected><%= check.productCategory %></option>
+                    <% categorydata.forEach((category) => { %>
+                      <% if(check.productCategory != category.categoryName) {%>
+                        <option name="<%= category.categoryName %>" value="<%= category.categoryName %>"><%= category.categoryName %></option>
+                      <%}%>
+                    <% }) %>
+                  </select>
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Details</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <textarea class="form-control" rows="3"  name="productdetails"><%=check.productDescription %></textarea>
+  
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5 w-100">
+  
+                  <!-- <h6 class="mb-0">Product Images</h6> -->
+                  
+  
+                  
+
+                  <div class="row w-100" style="width: 100%;">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                      <div class="card mb-4 justify-content-center">
+                        <img src=" /static/uploads/<%= check.mainImage %>" class="card-img-top align-self-center pt-2" alt="image" style="height: 100px;width: 100px;">
+                        <div style="margin-top: 10px; margin: auto;">
+                        <span><strong>Cover Image</strong></span>
+                      </div>
+                        <!-- <a href="/admin/deleteimage?id=<%=check.productID %>&mainimage=<%=check.mainImage%>" class="btn btn-outline-primary" style="margin-top: 10px; margin: auto;"><i class="fa fa-remove" style="font-size:20px"></i></a> -->
+                        </div>  
+                       
+                    </div>
+                    
+                    <% for(let i=0;i<check.image.length;i++){ %>
+                      <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card mb-4 justify-content-center">
+                          <img src=" /static/uploads/<%= check.image[i] %>" class="card-img-top align-self-center pt-2" alt="image" style="height: 100px;width: 100px;">
+                          <a href="/admin/deleteimage?id=<%=check.productID %>&image=<%=check.image[i]%>" class="btn btn-outline-primary" style="margin-top: 10px; margin: auto;"><i class="fa fa-remove" style="font-size:20px"></i></a>
+                          </div>  
+                         
+                      </div>
+                    <% }; %>
+                  </div>
+                </div>
+
+              <hr class="mx-n3">
+              
+              <div style="display: flex;">
+                <div class="form-group ">
+                  <label><strong>Main Image</strong></label>
+                  <div class=" container d-flex m-2 justify-content-between">
+                      
+                      <input type="file" id="mainImageInput" class="form-control me-1" name="mainImage" accept="image/*" >
+                     
+                  </div>
+              </div>
+              <div class="form-group ">
+                <label> <strong>Images</strong></label>
+                <div class="form-group d-flex m-2 justify-content-between">
+                
+                    <div class=" container d-flex m-2 justify-content-between">
+                        <input type="file" id="imageInput" class="form-control me-1" name="image" accept="image/*"  multiple >
+                       
+                    </div>
+                </div>
+            </div>
+
+                <!-- <div class="col-md-3 ps-5" style="flex: 1;" >
+    
+                  <h6 class="mb-0" >Category Image upload</h6>
+  
+                </div> -->
+                <!-- <div style="flex: 1;">
+                <input class="form-control" name="file"  type="file" id="formFileMultiple" multiple />
+              </div> -->
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="px-5 py-4 text-center">
+                <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+              </div>
+  
+            </div>
+        </form>
+
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  
+    <!-- <div class="d-flex justify-content-around">
+        <h1 class="mb-5"> Data edit section</h1>
+      </div>    
+
+    <form action="/edit" method="post" onsubmit="return checkAll()">
+
+      <div class="input-group mt-5 mb-3">
+        <input type="text" name="id" required class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="<%=check._id %>" hidden>
+      </div>
+       
+    <div class="input-group mt-5 mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+        </div>
+        <input type="text" name="name" id="name" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="<%=check.name %>" onchange="checkName()">
+      </div>
+      <span id="Name"></span>
+
+      <div class="input-group mt-5 mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+        </div>
+        <input type="text" name="email" id="email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="<%=check.email %>" onchange="checkMail()">
+      </div>
+      <span id="Email"></span>
+
+      <div class="input-group mt-5 mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+        </div>
+        <input type="text" name="password" id="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="<%=check.password %>" onchange="passwordCheck()">
+      </div>
+      <span id="Password"></span>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Role</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="role">
+          <% if(check.role == 'admin'){ %>
+          <option selected ><%=check.role%></option>
+          <option value="user">user</option>
+          <% } %>
+          <% if(check.role == 'user'){ %>
+          <option selected ><%=check.role%></option>
+          <option value="admin">admin</option>
+          <% } %>
+        </select>
+      </div>
+
+    <div class="d-grid gap-2 col-5 mx-auto mt-5">
+    <button type="submit" onclick="checkName(),checkMail(),passwordCheck()" class="btn btn-secondary btn-md">Save Details</button>
+    
+</div>
+</form>
+
+</body>
+</html>
+
+<script>
+
+  function checkName(){
+    let name = document.getElementById('name').value;
+            if(name == ""){
+                document.getElementById('Name').innerHTML = "Admin you forgot to enter username";
+                document.getElementById('Name').style.color = 'red';
+                return false;
+            }
+            else{
+                document.getElementById('Name').innerHTML = "";
+                return true;
+            }
+  }
+
+  function checkMail(){
+    let email = document.getElementById("email").value;
+                if(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)==false){
+                document.getElementById("Email").innerHTML="Admin email is not valid";
+                document.getElementById('Email').style.color='red'
+                return false;
+                }else{
+                document.getElementById("Email").innerHTML="";
+                return true;
+                }
+  }
+
+  let password = document.getElementById('password').value;
+        function passwordCheck(){
+            password = document.getElementById('password').value;
+            if(password == ""){
+                document.getElementById('Password').innerHTML="Admin, you forgot to add password";
+                document.getElementById('Password').style.color='red';
+                return false;
+            }
+            else if(password.length < 6){
+                document.getElementById('Password').innerHTML="Admin password is less than 6 letters";
+                document.getElementById('Password').style.color='red';
+                return false;
+            }else{
+                document.getElementById('Password').innerHTML="";
+                return true;
+            }
+        }
+
+  function checkAll(){
+    if(checkName() && checkMail() && passwordCheck()){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
+</script> -->

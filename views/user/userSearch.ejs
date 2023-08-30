@@ -1,0 +1,182 @@
+<%- include('userNavbar')%>
+
+<link rel="stylesheet" href="/static/styles/homepage.css">
+
+<!-- <div class="ml-3" style="border: 1px solid red;"> -->
+<h5 class="text-primary mt-3" style="padding-left: 50px;font-weight: 700;font-size: 29px;">PRODUCTS</h5>
+<% if (locals.items && locals.search) { %>
+  <div >
+    <p>Showing <strong><%= items %> </strong> results for <strong><%= search %></strong></p>
+  </div>
+<% } %> 
+
+<h3 class=" my-4"><%= productdetails.productCategory %></h3>
+
+
+   
+<hr class="mx-n3 d-flex" >
+<div class="toast-container position-fixed top-0 end-0 p-3">
+
+</div>
+<div style=" display: flex;" >
+  <!-- Sidebar -->
+
+
+  <div class="col-lg-3 flex-1" style="width: 15% ;">
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+      <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+          <a
+            href="#"
+            class="list-group-item list-group-item-action py-2 ripple"
+            aria-current="true"
+          >
+            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span><strong>Major Categories</strong></span>
+          </a>
+          <form action="/filterbyprice" method="post">
+          <% categoryData.forEach((cat)=>{ %>
+
+         
+          <a href="/products?name=<%=cat.categoryName%>" class="list-group-item list-group-item-action py-2 ripple">
+            <input type="radio" value="<%=cat.categoryName%>" name="selectedcat" checked>     <%= cat.categoryName%>
+          </a>
+          <% }) %>
+        
+        </div>
+      </div>
+    </nav>
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-light">
+      <div class="position-sticky">
+        <div class="mt-4 mx-3">
+         
+          <!-- Category Dropdown -->
+          <div class="mb-3">
+            <!-- <label for="categoryFilter" class="form-label">Category:</label>
+            <select class="form-select" id="categoryFilter">
+              <option value="all">All Categories</option>
+           
+              <option value=""></option>
+             
+            </select> -->
+          </div>
+          <!-- Sort Options -->
+         
+          <div class="mb-3">
+            <label for="sortFilter" class="form-label" ><strong>Sort By:</strong></label>
+            <select class="form-select" name="sortvalue" id="sortFilter">
+              <option value="desc">Price: High to Low</option>
+              <option value="asc">Price: Low to High</option>
+            </select>
+          </div>
+          <!-- Apply Filter Button -->
+          <button type="btn" class="btn btn-primary" id="applyFilterBtn">Apply Filter</button>
+       </form>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+
+<div >
+    <div class="display_category p-3 flex-1" style="margin-left: 54px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; ">
+        <% if (locals.message) { %>
+            <div class="alert alert-danger">
+              <strong><%= message %> </strong>
+            </div>
+          <% } %> 
+  
+
+        <% productdetails.forEach((product) => { %>
+         
+    <div  class="card mt-3 p-3 text-center " style="width: 16rem;height: 400px; " > 
+      
+        <img style="width: 80%; height: 50%; margin: auto;" src="/static/uploads/<%= product.mainImage %>" class="card-img-top pt-2 hovereffect" alt="<%= product.productName%>">
+      
+        <div class="card-body">
+          <h5 class="card-title "><%= product.productName%></h5>
+          <!-- <p class="card-text "><%= product.productDescription %></p> -->
+          <p class="card-text "><span class="text-success font-weight-bold" ><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %>
+          <h6 class="card-text "><span>&#8377;</span><%= product.productPrice %></h6>
+          <button class="btn btn-primary" id="addToBag" style="width:200px;height: 50px;" onclick="addToBag('<%= product.productID %>')" >Add to Cart</button>
+        </div>
+      
+      </div>
+    <!-- </div> -->
+    
+    
+    
+      <% }) %>
+    </div>
+    
+    </div>
+  </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.0.1/zoom.min.js" integrity="sha512-OhJxb3F/IiF96I1C2hoqRw8iu54GLjgaw/Bl0SRBuuK2qtPqgpKh5m15dSJxub1GwUgxVGzsBotW742Iva4Y6w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zoom.js/0.0.1/zoom.js" integrity="sha512-6E6ANOHjAoSVKVdprNwFYCmjBSBak4ieFbj4AYdRdzA8lLvIdEwwJbV93FO1SFKcvghYBtGP6DrcBUEjOlW0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+      function showToast(message, type) {
+       
+       const toastContainer = document.querySelector('.toast-container');
+     
+       const toast = document.createElement('div');
+       toast.className = `toast bg-${type} text-white`;
+       toast.setAttribute('role', 'alert');
+       toast.setAttribute('aria-live', 'assertive');
+       toast.setAttribute('aria-atomic', 'true');
+     
+       const toastBody = document.createElement('div');
+       toastBody.className = 'toast-body';
+       toastBody.textContent = message;
+     
+       toast.appendChild(toastBody);
+       toastContainer.appendChild(toast);
+     
+       const bsToast = new bootstrap.Toast(toast);
+       bsToast.show();
+     }
+    
+     function addToBag(id)
+       {
+        const url = `api/addtoBag?id=${id}`;
+        fetchBag(url,id);
+       }
+    
+    
+       function fetchBag(url,id){
+           
+           const options = {
+               method:'POST',
+               headers:{
+                   'Content-Type':'application/json'
+               },
+               body: JSON.stringify({id})
+           }
+           console.log(options)
+           fetch(url,options)
+           .then(response=> response.json())
+           .then(data=>{
+               console.log(data);
+               
+               if(data == "exists"){
+                   //document.getElementById("errorr").innerHTML = "already exists";
+                   showToast('Item Already exists!', 'success');
+               } else if(data == "login"){
+                   //document.getElementById("errorr").innerHTML = "Please Login";
+                   showToast('Please Login!!!', 'warning');
+               }else{
+                   //document.getElementById("errorr").innerHTML = "Success";
+                   showToast('Item Added successfully!!!', 'success');
+                   
+               }
+              //  location.reload();
+           })
+       }
+</script>
+    

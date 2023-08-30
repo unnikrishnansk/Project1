@@ -1,0 +1,54 @@
+<%-include('adminNavbar')%>
+    
+    <div class="d-flex " style=" width: 80%; margin-left: 25px; justify-content: space-between;">
+        <h3 class="mb-5 mt-5 ml-5">Categories</h3>
+        <a href="/admin/addbanner" class="btn btn-outline-primary" style="height: 40px; width: 200px; margin-top: 35px;">Add Banner</a>
+      </div>
+    
+      <% if (locals.message) { %>
+        <div class="alert alert-danger">
+          <strong><%= message %> </strong>
+        </div>
+      <% } %> 
+      
+      <!-- <li class="nav-item"> -->
+        <!-- <a class="navbar-brand" href="/admin/dashboard">Dashboard</a> -->
+        <div class="d-flex">
+        <form action="/admin/banner/search" method="get" class="d-flex ms-2 me-2" role="search" >
+            <input class="form-control me-2" type="text" placeholder="Search Banner" id="search" name="search">
+            <button class="btn btn-outline-primary" type="submit" value="Search">Search</button>
+        </form> 
+      </div>
+      <!-- </li> -->
+    
+        <table class="table table-striped mt-3" style="text-align: center;">
+          <thead class="thead-dark">
+            <tr>
+              <th  scope="col">ID</th>
+              <th  scope="col">Banner Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Banner Navigate To</th>
+              <th scope="col">Banner Image</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+           <% banners.forEach((banner) => { %>
+              <tr>
+                <td><%= banner.bannerID %></td>
+                <td><%= banner.bannerName %></td>
+                <td><%= banner.bannerDescription %></td>
+                <td><%= banner.bannerNavigate %></td>
+                <td><img height="75px" width="125px" src="/static/uploads/<%= banner.bannerImage %>" alt=""></td>
+                <td>
+                    <a href="/admin/editbanner?id=<%=banner.bannerID%>" class="btn btn-outline-primary">Edit</a>
+                    <a href="/admin/deletebanner?id=<%=banner.bannerID%>" class="btn btn-outline-primary" style="margin-left: 5px;">Delete</a>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+    
+        
+</body>
+</html>

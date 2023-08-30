@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Return Page</title>
+  <style>
+    /* Add some basic styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .row {
+      margin-bottom: 10px;
+    }
+
+    label {
+      margin-left: 10px;
+    }
+
+    /* Add some styling for the radio buttons */
+    input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      outline: none;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    input[type="radio"]:checked {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    /* Style the label text when the radio button is checked */
+    input[type="radio"]:checked + label {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <% if (locals.message) { %>
+    <div class="alert alert-danger">
+      <strong><%= message %> </strong>
+    </div>
+  <% } %> 
+  
+  <h1>Return Page</h1>
+  <form action="/returnorder" method="post" id="returnForm">
+  <!-- Return reasons with radio buttons -->
+  <input type="text" name="prodid" value="<%=prodid%>" hidden>
+  <input type="text" name="orderid" value="<%=orderid%>" hidden>
+  <div class="row d-flex pt-2">
+    <input type="radio" name="reasonButton" value="product defect" id="radioGreen">
+    <label for="radioGreen">Product defect</label>
+  </div>
+  <div class="row d-flex">
+    <input type="radio" name="reasonButton" value="found better Product" id="radioBlue">
+    <label for="radioBlue">Found better Product</label>
+  </div>
+  <div class="row d-flex">
+    <input type="radio" name="reasonButton" value="Not same as expected" id="radioGreen">
+    <label for="radioGreen">Not same as expected</label>
+  </div>
+  <div class="row d-flex">
+    <input type="radio" name="reasonButton" value="Other reasons" id="radioGreen">
+    <label for="radioGreen">Other reasons</label>
+  </div>
+
+  <!-- Return form and submit button -->
+ 
+    <label for="returnReason">Enter more details:</label>
+    <textarea id="returnReason" name="returnReason" rows="4" cols="50"></textarea>
+    <br>
+    <input style="background-color: #007bff;border: none;margin-top: 15px;width: 150px;height: 35px; color: #ccc; font-weight: bolder;" type="submit" value="Submit" onclick="return confirm('Are you sure you want to return this order?')">
+  </form>
+
+  <!-- JavaScript to handle form submission -->
+  <script>
+    // function returnorderfn(){
+    //   confirm('Are you sure you want to return this order?')
+    // }
+    //   event.preventDefault();
+    //   const selectedRadio = document.querySelector('input[name="reasonButton"]:checked');
+    //   const additionalDetails = document.getElementById('returnReason').value;
+      
+    //   if(!selectedReason){
+    //     alert("Select a suitable option for the returning the product")
+    //     return;
+    //   }
+
+    //    const selectedReason = selectedRadio.value;
+    //   if(selectedReason =="Other reasons" && additionalDetails.trim() == ""){
+    //     alert("Give additional details so that we can improve");
+    //     return;
+    //   }
+      
+    //     console.log('Selected Reason:', selectedReason);
+    //   console.log('Additional Details:', additionalDetails);
+    //   // Add your own logic here to handle form submission (e.g., AJAX request to the server)
+
+    //   alert("Thankyou for your concern")
+      
+      
+  
+  </script>
+</body>
+</html>

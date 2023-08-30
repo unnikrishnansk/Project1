@@ -1,0 +1,65 @@
+<%- include('userNavbar')%>
+<% if (locals.message) { %>
+  <div class="alert alert-danger">
+    <strong><%= message %> </strong>
+  </div>
+<% } %> 
+
+<link rel="stylesheet" href="/static/styles/homepage.css">
+
+
+<div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner" style="height: 400px;">
+      <% banner.forEach((ban)=>{%>
+      <div class="carousel-item active">
+          <img src="/static/uploads/<%=ban.bannerImage %>" class="d-block w-100" alt="statss">
+      </div>
+      <%})%>
+      </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+<!-- <strong>Hi... <%= locals.user ? user : "User" %></strong> -->
+
+<!-- <div class="vh-80" style="border: 1px solid red; height: 400px;">
+Banner space</div> -->
+
+<!-- <div class="ml-3" style="border: 1px solid red;"> -->
+<h5 class="text-primary mt-3" style="margin-left: 15px;">CATEGORIES</h5>
+<h3 class=" my-4" style="margin-left: 20px;">Browse By Categories</h3>
+
+<hr class="mx-n3">
+
+<div >
+<div class="display_category p-5" >
+ 
+<% categorydetails.forEach((category) => { %>
+
+<div class="card mt-3 pl-3 text-center" style="width: 16rem; height: 300px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+    <img style="width: 80%; height: 50%; margin: auto;" src="/static/uploads/<%= category.categoryImage%>" class="card-img-top pt-2" alt="lap">
+    <div class="card-body">
+      <h5 class="card-title "><%= category.categoryName%></h5>
+      <p class="card-text "><%= category.categoryDescription %></p>
+      <a href="/products?name=<%=category.categoryName%>" style="width: 80%;" class="btn btn-primary justify-content-center">Explore Category</a>
+    </div>
+  </div>
+<!-- </div> -->
+
+
+  <% }) %>
+</div>
+</div>
+
+
+</body>
+</html>
+
+<%- include('footer')%>

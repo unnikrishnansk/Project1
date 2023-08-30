@@ -1,0 +1,59 @@
+<%-include('adminNavbar')%>
+    
+    <div class="d-flex" style=" width: 80%; margin-left: 25px; justify-content: space-between;">
+        <h3 class="mb-5 mt-5"> All users</h3>
+        <!-- <a class="btn btn-outline-primary my-3 ml-5" style="height: 40px; width: 200px; margin-top: 45px;" href="/admin/adduser" >Add New User</a> -->
+      </div>
+    
+      <% if (locals.message) { %>
+        <div class="alert alert-danger">
+          <strong><%= message %> </strong>
+        </div>
+      <% } %> 
+      
+      <!-- <li class="nav-item"> -->
+        <!-- <a class="navbar-brand" href="/admin/dashboard">Dashboard</a> -->
+        <div class="d-flex">
+        <form action="/admin/search" method="get" class="d-flex ms-2 me-2" role="search" >
+            <input class="form-control me-2" type="search" placeholder="Search User" id="search" name="search">
+            <button class="btn btn-outline-primary" type="submit" value="Search">Search</button>
+        </form> 
+      </div>
+      <!-- <span class="font-weight-bold ml-3"> Create a New User here</span>
+      <a class="btn btn-outline-primary my-3 ml-5" href="/admin/adduser" >Add User</a> -->
+      <!-- </li> -->
+    
+        <table class="table table-striped" style="text-align: center;">
+          <thead class="thead-dark">
+            <tr>
+              <th  scope="col">Userid</th>
+              <th  scope="col">Userame</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            <% checked.forEach((check) => { %>
+              <tr>
+                <td> <%= check.userid %></td>
+                <td> <%= check.username %></td>
+                <td> <%= check.email %></td>
+                <td> <%= check.mobile %></td>
+                <td>
+                  <% if(check.isblocked == false){ %>
+
+                  <a href="/admin/block?name=<%=check.name%>" class="btn btn-outline-primary">Block</a>
+                  <% } else { %>
+                   <a href="/admin/block?name=<%=check.name%>" class="btn btn-outline-primary">Unblock</a>
+                   <% } %>
+                  </td>
+
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+        
+</body>
+</html>

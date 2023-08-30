@@ -1,0 +1,101 @@
+
+
+<%-include('adminNavbar')%>
+
+
+<section  style="background-color: #2779e2;">
+    <div class="container ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4">Edit Category</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+
+            <form action="/admin/editbanner" method="post" enctype="multipart/form-data">
+            <div class="card-body">
+  
+              <div class="row align-items-center pt-4 pb-3">
+                <!-- <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Category ID</h6>
+                </div> -->
+                <div class="col-md-9 pe-5">
+                  <input type="text" class="form-control form-control-lg" value="<%=banners.bannerID%>" name="bannerid" hidden/>
+                </div>
+              </div>
+  
+              <!-- <hr class="mx-n3"> -->
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Category Name</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <input type="text" class="form-control form-control-lg" value="<%=banners.bannerName%>" name="categoryname" />
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Category Description</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <textarea class="form-control" rows="3"  name="categorydesc"><%=banners.bannerName%></textarea>
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Banner Navigation</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <input class="form-control" rows="3" name="bannernavigate" value="<%=banners.bannerNavigate%>"></input>
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row w-100" style="width: 100%;">
+              
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card mb-4 justify-content-center">
+                      <img src="/static/uploads/<%= banners.bannerImage %> " class="card-img-top align-self-center pt-2" alt="image" style="height: 100px;width: 100px;">
+                      </div>  
+                     
+                  </div>
+                
+              </div>
+              
+              <div style="display: flex;">
+
+                <div class="col-md-3 ps-5" style="flex: 1;" >
+    
+                  <h6 class="mb-0" >Category Image upload</h6>
+  
+                </div>
+                <div style="flex: 1;">
+                <input class="form-control" name="file"  type="file" id="formFileMultiple" multiple />
+              </div>
+              </div>
+  
+                <hr class="mx-n3">
+  
+              <div class="px-5 py-4 text-center">
+                <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+              </div>
+  
+            </div>
+        </form>
+
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  
+    

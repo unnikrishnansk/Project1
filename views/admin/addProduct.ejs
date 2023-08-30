@@ -1,0 +1,165 @@
+<%-include('adminNavbar')%>
+
+
+<section  style="background-color: #2779e2;">
+    <div class="container ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4">Add a product</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+
+            <% if (locals.message) { %>
+                <div class="alert alert-danger">
+                  <strong><%= message %> </strong>
+                </div>
+              <% } %> 
+
+            <form action="/admin/addproduct" method="post" enctype="multipart/form-data">
+            <div class="card-body">
+  
+              <div class="row align-items-center pt-4 pb-3" hidden>
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product ID</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg"  name="productid"/>
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+  
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Name</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" name="productname" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Price</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" name="productprice" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Stock</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <input type="text" class="form-control form-control-lg" name="productstock" />
+  
+                </div>
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3" style="display: flex; ">
+                <div class="col-md-3 ps-5" style="flex: 1;">
+  
+                  <h6 class="mb-0">Product Category</h6>
+  
+                </div>
+
+                <div style="flex: 1;">
+                  <select name="selectcategory" class="form-select mr-5" aria-label="Default select example">
+                    <option selected>Select the category</option>
+                    <% categorydata.forEach((category) => { %>
+                      <option name="<%= category.categoryName %>" value="<%= category.categoryName %>"><%= category.categoryName %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                
+              
+              </div>
+  
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+  
+                  <h6 class="mb-0">Product Details</h6>
+  
+                </div>
+                <div class="col-md-9 pe-5">
+  
+                  <textarea class="form-control" rows="3" name="productdesc"></textarea>
+  
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+              
+              <div style="display: flex;">
+
+              <!-- <div class="col-md-3 ps-5" style="flex: 1;" >
+  
+                <h6 class="mb-0" >Product Image upload</h6>
+
+              </div> -->
+
+              <div class="form-group ">
+                <label>Main Image</label>
+                <div class=" container d-flex m-2 justify-content-between">
+                    
+                    <input type="file" id="mainImageInput" class="form-control me-1" name="mainImage" accept="image/*" >
+                   
+                </div>
+            </div>
+            <div class="form-group ">
+              <label>Images</label>
+              <div class="form-group d-flex m-2 justify-content-between">
+              
+                  <div class=" container d-flex m-2 justify-content-between">
+                      <input type="file" id="imageInput" class="form-control me-1" name="image" accept="image/*"  multiple >
+                     
+                  </div>
+              </div>
+          </div>
+            
+
+
+              <!-- <div style="flex: 1;">
+              <input class="form-control" name="file" multiple  type="file" id="formFileMultiple" multiple />
+            </div> -->
+            </div>
+
+              <hr class="mx-n3">
+  
+              <div class="px-5 py-4 text-center">
+                <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+              </div>
+  
+            </div>
+        </form>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
